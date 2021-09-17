@@ -1,0 +1,84 @@
+{% extends 'member/base.html' %}
+{% load humanize %}
+{% block title %} 주문서 목록{% endblock %}
+
+{% block content %}
+<div class="container my-3">
+<h2>주문상세</h2>
+{{order.order_date|date:'Y-m-d'}}주문 | 주문번호 {{ order.order_id }}</br>
+</br>
+<div class="card my-3">
+    <div class="card-body">
+        <h3>배송정보</h3></hr>
+        <table class="table table-condensed">
+            <tr>
+                <td>상태</td>
+                <td>{{ order.order_status}}</td>
+            </tr>
+            <tr>
+                <td>택배사</td>
+                <td>{{ order.delivery }}</td>
+            </tr>
+            <tr>
+                <td>송장번호</td>
+                <td>{{ order.delivery_no}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="card my-3">
+    <div class="card-body">
+        <h3>받는사람정보</h3></hr>
+        <table class="table table-condensed">
+            <tr>
+                <td>받는사람</td>
+                <td>{{ order.order_name }}</td>
+            </tr>
+            <tr>
+                <td>연락처</td>
+                <td>{{ order.order_tel}}</td>
+            </tr>
+            <tr>
+                <td>받는주소</td>
+                <td>{{ order.order_addr }}</td>
+            </tr>
+            <tr>
+                <td class="ordertable1_last">요청사항</td>
+                <td class="ordertable1_last">없음</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="card my-3">
+    <div class="card-body">
+    <h3>상품목록</h3>
+    <table class="table table-striped">
+    <tr>
+        <th scope="col">Image</th>
+        <th scope="col">상품명</th>
+        <th scope="col">가격</th>
+        <th scope="col">주문수량</th>
+        <th scope="col">총 가격</th>
+        <th scope="col"></th>
+    </tr>
+    {% for item in order.items.all %}
+    <tr>
+        <td><img src="{{item.product.pro_img.url}}" class="img-thumbnail" width="100"></td>
+        <td>{{item.product.pro_name}}</td>
+        <td>{{item.product.pro_price}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{item.get_item_price|intcomma}}원</td>
+        <td></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <th colspan=6>
+            주문 합계 : {{ order.get_total_product|intcomma}}원
+        </th>
+    </tr>
+    </table>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

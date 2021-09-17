@@ -1,0 +1,15 @@
+{% extends "member/base.html" %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form action="" method="post">
+            {% csrf_token %}
+            정말 삭제하시겠습니까?
+            <input type="submit" value="삭제">
+        </form>
+    </div>
+</div>
+{% endblock %}
+    

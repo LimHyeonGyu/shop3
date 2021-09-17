@@ -1,0 +1,54 @@
+{% extends 'member/base.html' %}
+{% load humanize %}
+{% block content %}
+<script>
+    $(document).ready(function(){
+        $('.like').click(function(){
+            var pk = $(this).attr('name')
+            $.ajax({	  
+                url: "{% url 'product:like' %}",
+                type: 'post',
+                data: {
+                    pk: pk, 
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response){
+                    $('#count'+ pk).html(response.likes_count);
+                },
+                error:function(xhr){
+                    alert(xhr.status);
+                }
+            });
+        })
+    });
+</script>
+<div class="my-4">
+    <div style="display:flex;justify-content:center;">
+        <div class="mr-4">
+            <img class="border" src="{{product.pro_img.url}}" style="width:300px;height:250px;">
+        </div>
+        <div style="width:30%;">
+            <h3>{{product.pro_name}}</h3>
+            {% if product.pro_hot == True %}    
+                <span class="badge bg-danger text-light">인기상품</span>
+            {% endif %}
+            {% if product.pro_new == True %}
+                <span class="badge bg-primary text-light">신규상품</span>
+            {% endif %}<hr>
+            {{product.pro_desc}}</br><hr>
+            가격 : {{ product.pro_price|intcomma }}원</br><hr>
+            재고수량 : {{ product.pro_stock}}</br><hr>
+            등록일 : {{product.pro_day|date:'Y-m-d'}}</br><hr>
+            <input type="button" class="like btn btn-outline-danger" name="{{product.id}}" value="좋아요">
+            <span id="count{{product.id}}">{{product.pro_like}}</span></br><hr>
+
+            <form id = "am_form"  method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-dark mb-3" value="장바구니 추가">
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'member/base.html' %}
+{% load humanize %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<div class="container my-4">
+    <div class="card">
+    <div class="card-body">
+    <h3>장바구니</h3>
+    <table class="table table-hover">
+        <tr>
+            <th>선택</th>
+            <th>이미지</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>주문수량</th>
+            <th>합계</th>
+            <th>삭제</th>
+        </tr>
+        {% for cart in object_list %}
+        <tr>
+            <td>
+                <input type="checkbox">
+            </td>
+            <td><img style="width:100px;height:100px;" src="{{cart.product.pro_img.url}}" class="img-thumbnail"></td>
+            <td>{{cart.product.pro_name}}</td>
+            <td>{{cart.price}}</td>
+            <td>{{cart.amount}}</td>
+            <td>{{cart.get_sum}}</td>
+            <td><a href="{% url 'cart:remove' cart.id %}"><button type="button" class="btn btn-outline-primary">삭제</button></a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan=7>
+            </td>
+        </tr>
+    </table>
+    <div class="container" style="text-align:center;">
+        <a href="{% url 'order:orderview' %}"><button type="button" class="btn btn-outline-primary">결제</button></a>
+    </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'member/base.html' %}
+{% load humanize %}
+{% block title %}주문조회{% endblock %}
+
+{% block content %}
+<h3>{{ user.username }} 님의 주문 목록입니다.</h3>
+<table class="table table-striped">
+    <tr>
+        <th></th>
+        <th>주문번호</th>
+        <th>주문일</th>
+        <th>연락처</th>
+        <th>배송지</th>
+        <th>택배사</th>
+        <th>송장번호</th>
+        <th>상태</th>
+        <th></th>
+    </tr>
+    {% for order in object_list %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td><a href="#">{{ order.order_id }}</a></td>
+        <td>{{ order.order_date|date:'Y-m-d' }}</td>
+        <td>{{ order.order_tel }}</td>
+        <td>{{ order.order_addr }}</td>
+        <td>{{ order.delivery }}</td>
+        <td>{{ order.delivery_no }}</td>
+        <td>{{ order.order_status }}</td>
+        <td><a href="{% url 'order:detail' order.id %}">[상세]</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

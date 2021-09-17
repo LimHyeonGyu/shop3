@@ -1,0 +1,51 @@
+{% extends 'member/base.html' %}
+{% load humanize %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<script>
+    $(document).ready(function(){
+        $(".col-4").on("click", function(){
+            var a = $(this).attr("value");
+            window.location.href="product/"+a;
+        });
+        $(".col-4").on("mouseover", function(){
+            $(this).css("border","2px solid #4374D9");
+        });
+        $(".col-4").on("mouseout", function(){
+            $(this).css("border","none");
+        });
+    });
+</script>
+<div class="container my-4">
+    <h3>인기상품</h3>
+    <div class="row">
+    {% for product in object_list %}
+	    <div class="col-4" value="{{product.id}}">
+		    <div class="card mb-3">
+		        {% if product.pro_img %}
+                <img style="height:200px;" class="img-fluid rounded-start" src="{{product.pro_img.url}}">
+                {% endif %}
+		        <div class="card-body">
+		        <h5 class="card-title">
+                    {{ product.pro_name }}
+                    <span class="badge bg-danger text-light">인기상품</span>
+                    {% if product.pro_new == True %}
+                    <span class="badge bg-primary text-light">신규상품</span>
+                    {% endif %}
+                </h5>
+                <p class="card-text">
+                    가격 : {{ product.pro_price|intcomma }}원
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        재고 : {{ product.pro_stock }}개
+                    </small>
+                </p>
+		        </div>
+	        </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
